@@ -62,6 +62,7 @@ bash+:fcopy() {
 bash+:findlib() {
   local library_name="$(tr [A-Z] [a-z] <<< "${1//:://}").bash"
   local lib="${BASHPLUSLIB:-${BASHLIB:-$PATH}}"
+  library_name="${library_name//+/\\+}"
   find ${lib//:/ } -name ${library_name##*/} 2>/dev/null |
     grep -E "$library_name\$" |
     head -n1
