@@ -1,0 +1,86 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "BASH+" "1" "May 2014" "" ""
+.
+.SH "NAME"
+\fBBash+\fR \- Modern Bash Programming
+.
+.P
+ \fIhttps://travis\-ci\.org/ingydotnet/bashplus\fR
+.
+.SH "Synopsis"
+.
+.nf
+
+source bash+ :std :array
+
+use Foo::Bar this that
+
+Array\.new args "$@"
+
+if args\.empty?; then
+    die "I need args!"
+fi
+
+Foo::Bar\.new foo args
+
+this is awesome     # <= this is a real command! (You just imported it)
+.
+.fi
+.
+.SH "Description"
+Bash+ is just Bash\.\.\. \fIplus\fR some libraries that can make Bash programming a lot nicer\.
+.
+.SH "Installation"
+Get the source code from GitHub:
+.
+.IP "" 4
+.
+.nf
+
+git clone git@github\.com:bpan\-org/bashplus
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Then run:
+.
+.IP "" 4
+.
+.nf
+
+make test
+make install        # Possibly with \'sudo\'
+.
+.fi
+.
+.IP "" 0
+.
+.SH "Usage"
+For now look at some libraries the use Bash+:
+.
+.IP "\(bu" 4
+https://github\.com/bpan\-org/git\-hub
+.
+.IP "\(bu" 4
+https://github\.com/bpan\-org/json\-bash
+.
+.IP "\(bu" 4
+https://github\.com/bpan\-org/test\-more\-bash
+.
+.IP "" 0
+.
+.SH "Status"
+This stuff is really new\. Watch the https://github\.com/bpan\-org/ for developments\.
+.
+.P
+If you are interested in chatting about this, \fB/join #bpan\fR on irc\.freenode\.net\.
+.
+.SH "Author"
+Written by Ingy döt Net \fIingy@bpan\.org\fR
+.
+.SH "Copyright"
+Copyright 2013 Ingy döt Net
