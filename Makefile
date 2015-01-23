@@ -31,7 +31,10 @@ install:
 	install -C -m 0644 $(LOCAL_MAN1) $(INSTALL_MAN1)/
 	install -C -m 0644 $(LOCAL_MAN3) $(INSTALL_MAN3)/
 
-doc: $(LOCAL_MAN1) $(LOCAL_MAN3)
+doc: ReadMe.pod $(LOCAL_MAN1) $(LOCAL_MAN3)
+
+ReadMe.pod: doc/bash+.swim
+	swim --to=pod --wrap --complete $< > $@
 
 man/man1/%.1 man/man3/%.3: doc/%.md
 	ronn --roff < $< > $@
