@@ -1,4 +1,4 @@
-.PHONY: test install
+.PHONY: test doc
 
 ifeq ($(MAKECMDGOALS),install)
     ifeq "$(shell bpan version 2>/dev/null)" ""
@@ -36,5 +36,5 @@ doc: ReadMe.pod $(LOCAL_MAN1) $(LOCAL_MAN3)
 ReadMe.pod: doc/bash+.swim
 	swim --to=pod --wrap --complete $< > $@
 
-man/man1/%.1 man/man3/%.3: doc/%.md
-	ronn --roff < $< > $@
+man/man1/%.1 man/man3/%.3: doc/%.swim
+	swim --to=man $< > $@

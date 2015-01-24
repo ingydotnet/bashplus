@@ -30,7 +30,7 @@ lot nicer.
 
 Get the source code from GitHub:
 
-  git clone git@github.com:bpan-org/bashplus
+  git clone git@github.com:ingydotnet/bashplus
 
 Then run:
 
@@ -41,24 +41,21 @@ Then run:
 
 For now look at some libraries the use Bash+:
 
-* https://github.com/bpan-org/git-hub
-* https://github.com/bpan-org/json-bash
-* https://github.com/bpan-org/test-more-bash
+* https://github.com/ingydotnet/git-hub
+* https://github.com/ingydotnet/json-bash
+* https://github.com/ingydotnet/test-more-bash
 
 = Status
-
-This stuff is really new. Watch the https://github.com/bpan-org/ for
-developments.
 
 If you are interested in chatting about this, `/join #bpan` on
 irc.freenode.net.
 
 = Author
 
-Written by Ingy döt Net <ingy@bpan.org>
+Written by Ingy döt Net <ingy@ingy.net>
 
 = Copyright & License
 
-Copyright 2013-2015 Ingy döt Net
+Copyright 2013-2015. Ingy döt Net.
 
-The MIT License (MIT)
+The MIT License (MIT).
