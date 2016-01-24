@@ -1,6 +1,6 @@
 # bash+ - Modern Bash Programming
 #
-# Copyright (c) 2013-2015 Ingy döt Net
+# Copyright (c) 2013-2016 Ingy döt Net
 
 {
   bash+:version-check() {
