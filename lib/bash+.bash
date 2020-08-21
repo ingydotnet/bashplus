@@ -1,6 +1,6 @@
 # bash+ - Modern Bash Programming
 #
-# Copyright (c) 2013-2016 Ingy döt Net
+# Copyright (c) 2013-2020 Ingy döt Net
 
 {
   bash+:version-check() {
@@ -17,7 +17,7 @@ set -e
 
 [ -z "$BASHPLUS_VERSION" ] || return 0
 
-BASHPLUS_VERSION='0.0.7'
+BASHPLUS_VERSION='0.0.8'
 
 @() { echo "$@"; }
 bash+:export:std() { @ use die warn; }
