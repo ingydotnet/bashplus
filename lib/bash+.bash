@@ -4,9 +4,16 @@
 
 {
   bash+:version-check() {
-    test "$1" -ge 4 && return
-    test "$1" -eq 3 -a "$2" -ge 2 && return
-    echo "Bash version 3.2 or higher required for 'git hub'" >&2
+    if test "$1" -ge 5; then return; fi
+    if test "$1" -eq 4 && test "$2" -ge 4; then return; fi
+
+    echo "The 'bashplus' library requires that 'Bash 4.4+' is installed." >&2
+    echo "It doesn't need to be your shell, but it must be in your PATH." >&2
+    if [[ ${OSTYPE-} == darwin* ]]; then
+      echo "You appear to be on macOS." >&2
+      echo "Try: 'brew install bash'." >&2
+      echo "This will not change your user shell, it just installs 'Bash 5.x'." >&2
+    fi
     exit 1
   }
   bash+:version-check "${BASH_VERSINFO[@]}"
