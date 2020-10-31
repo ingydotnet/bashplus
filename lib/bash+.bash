@@ -4,8 +4,8 @@
 
 {
   bash+:version-check() {
-    test $1 -ge 4 && return
-    test $1 -eq 3 -a $2 -ge 2 && return
+    test "$1" -ge 4 && return
+    test "$1" -eq 3 -a "$2" -ge 2 && return
     echo "Bash version 3.2 or higher required for 'git hub'" >&2
     exit 1
   }
@@ -25,7 +25,7 @@ bash+:export:std() { @ use die warn; }
 # Source a bash library call import on it:
 bash+:use() {
   local library_name=${1:?bash+:use requires library name}; shift
-  local library_path=; library_path=$(bash+:findlib $library_name)
+  local library_path=; library_path=$(bash+:findlib "$library_name")
   [[ $library_path ]] || {
     bash+:die "Can't find library '$library_name'." 1
   }
@@ -42,9 +42,9 @@ bash+:import() {
   local arg=
   for arg; do
     if [[ $arg =~ ^: ]]; then
-      bash+:import $(bash+:export$arg)
+      bash+:import $(bash+:export"$arg")
     else
-      bash+:fcopy bash+:$arg $arg
+      bash+:fcopy bash+:"$arg" "$arg"
     fi
   done
 }
@@ -63,7 +63,7 @@ bash+:findlib() {
   local library_name=; library_name=$(tr 'A-Z' 'a-z' <<< "${1//:://}").bash
   local lib=${BASHPLUSLIB:-${BASHLIB:-$PATH}}
   library_name=${library_name//+/\\+}
-  ( IFS=':'; find $lib -name ${library_name##*/} 2>/dev/null |
+  ( IFS=':'; find "$lib" -name "${library_name##*/}" 2>/dev/null |
     grep -E "$library_name\$" |
     head -n1 )
 }
@@ -74,11 +74,11 @@ bash+:die() {
   local trailing_newline_re=$'\n''$'
   [[ $msg =~ $trailing_newline_re ]] && exit 1
 
-  local c=($(caller ${DIE_STACK_LEVEL:-${2:-0}}))
+  local c=($(caller "${DIE_STACK_LEVEL:-${2:-0}}"))
   (( ${#c[@]} == 2 )) &&
     msg=" at line %d of %s" ||
     msg=" at line %d in %s of %s"
-  printf "$msg\n" ${c[@]} >&2
+  printf "$msg\n" "${c[@]}" >&2
   exit 1
 }
 
