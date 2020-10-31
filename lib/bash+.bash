@@ -15,20 +15,20 @@
 
 set -e
 
-[ -z "$BASHPLUS_VERSION" ] || return 0
+[[ -z $BASHPLUS_VERSION ]] || return 0
 
-BASHPLUS_VERSION='0.0.8'
+BASHPLUS_VERSION=0.0.9
 
 @() { echo "$@"; }
 bash+:export:std() { @ use die warn; }
 
 # Source a bash library call import on it:
 bash+:use() {
-  local library_name="${1:?bash+:use requires library name}"; shift
-  local library_path=; library_path="$(bash+:findlib $library_name)"
-  [[ -n $library_path ]] || {
+  local library_name=${1:?bash+:use requires library name}; shift
+  local library_path=; library_path=$(bash+:findlib "$library_name")
+  [[ $library_path ]] ||
     bash+:die "Can't find library '$library_name'." 1
-  }
+
   source "$library_path"
   if bash+:can "$library_name:import"; then
     "$library_name:import" "$@"
@@ -44,7 +44,7 @@ bash+:import() {
     if [[ $arg =~ ^: ]]; then
       bash+:import `bash+:export$arg`
     else
-      bash+:fcopy bash+:$arg $arg
+      bash+:fcopy "bash+:$arg" "$arg"
     fi
   done
 }
@@ -60,16 +60,19 @@ bash+:fcopy() {
 
 # Find the path of a library
 bash+:findlib() {
-  local library_name=; library_name="$(tr 'A-Z' 'a-z' <<< "${1//:://}").bash"
-  local lib="${BASHPLUSLIB:-${BASHLIB:-$PATH}}"
-  library_name="${library_name//+/\\+}"
-  ( IFS=':'; find $lib -name ${library_name##*/} 2>/dev/null |
+  local library_name=; library_name=$(tr 'A-Z' 'a-z' <<< "${1//:://}").bash
+  local lib=${BASHPLUSLIB:-${BASHLIB:-$PATH}}
+  library_name=${library_name//+/\\+}
+  (
+    IFS=':'
+    find "$lib" -name "${library_name##*/}" 2>/dev/null |
     grep -E "$library_name\$" |
-    head -n1 )
+    head -n1
+  )
 }
 
 bash+:die() {
-  local msg="${1:-Died}"
+  local msg=${1:-Died}
   printf "${msg//\\n/$'\n'}" >&2
   local trailing_newline_re=$'\n''$'
   [[ $msg =~ $trailing_newline_re ]] && exit 1
@@ -83,8 +86,8 @@ bash+:die() {
 }
 
 bash+:warn() {
-  local msg="${1:-Warning}"
-  printf "${msg//\\n/$'\n'}\n" >&2
+  local msg=${1:-Warning}
+  printf "%s" "${msg//\\n/$'\n'}\n" >&2
 }
 
 bash+:can() {
