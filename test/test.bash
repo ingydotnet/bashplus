@@ -32,9 +32,11 @@ is() {
 }
 
 ok() {
-  (exit "${1:-$?}") &&
-    pass "$2" ||
+  if (exit "${1:-$?}"); then
+    pass "$2"
+  else
     fail "$2"
+  fi
 }
 
 like() {
