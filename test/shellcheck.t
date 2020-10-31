@@ -29,7 +29,6 @@ skips=(
   SC2015 # Note that A && B || C is not if-then-else. C may run when A is true
   SC2076 # Don't quote right-hand side of =~, it'll match literally rather than as a regex.
   SC2046 # Quote this to prevent word splitting.
-  SC2006 # Use $(...) notation instead of legacy backticked `...`
   SC2019 # Use '[:upper:]' to support accents and foreign alphabets.
   SC2018 # Use '[:lower:]' to support accents and foreign alphabets.
   SC2059 # Don't use variables in the printf format string. Use printf '..%s..' "$foo"

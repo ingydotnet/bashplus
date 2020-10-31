@@ -42,7 +42,7 @@ bash+:import() {
   local arg=
   for arg; do
     if [[ $arg =~ ^: ]]; then
-      bash+:import `bash+:export$arg`
+      bash+:import $(bash+:export$arg)
     else
       bash+:fcopy "bash+:$arg" "$arg"
     fi
