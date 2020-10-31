@@ -27,7 +27,6 @@ skips=(
   SC2015 # Note that A && B || C is not if-then-else. C may run when A is true
   SC2019 # Use '[:upper:]' to support accents and foreign alphabets.
   SC2018 # Use '[:lower:]' to support accents and foreign alphabets.
-  SC2059 # Don't use variables in the printf format string. Use printf '..%s..' "$foo"
 )
 
 skip=$(IFS=,; echo "${skips[*]}")
