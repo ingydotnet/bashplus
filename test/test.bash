@@ -32,17 +32,13 @@ is() {
 }
 
 ok() {
-  (exit ${1:-$?}) &&
+  (exit "${1:-$?}") &&
     pass "$2" ||
     fail "$2"
 }
 
 like() {
-<<<<<<< HEAD
-  if [[ "$1" =~ "$2" ]]; then
-=======
   if [[ $1 =~ $2 ]]; then
->>>>>>> ef22a36... wip
     pass "$3"
   else
     fail "$3"
@@ -52,11 +48,7 @@ like() {
 }
 
 unlike() {
-<<<<<<< HEAD
-  if [[ ! "$1" =~ "$2" ]]; then
-=======
   if [[ ! $1 =~ $2 ]]; then
->>>>>>> ef22a36... wip
     pass "$3"
   else
     fail "$3"

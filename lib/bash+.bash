@@ -4,8 +4,8 @@
 
 {
   bash+:version-check() {
-    test $1 -ge 4 && return
-    test $1 -eq 3 -a $2 -ge 2 && return
+    test "$1" -ge 4 && return
+    test "$1" -eq 3 -a "$2" -ge 2 && return
     echo "Bash version 3.2 or higher required for 'git hub'" >&2
     exit 1
   }
@@ -42,7 +42,9 @@ bash+:import() {
   local arg=
   for arg; do
     if [[ $arg =~ ^: ]]; then
-      bash+:import $(bash+:export$arg)
+      # Word splitting required here
+      # shellcheck disable=2046
+      bash+:import $(bash+:export"$arg")
     else
       bash+:fcopy "bash+:$arg" "$arg"
     fi
@@ -77,11 +79,12 @@ bash+:die() {
   local trailing_newline_re=$'\n''$'
   [[ $msg =~ $trailing_newline_re ]] && exit 1
 
-  local c=($(caller ${DIE_STACK_LEVEL:-${2:-0}}))
+  local c
+  mapfile -t c < <(caller "${DIE_STACK_LEVEL:-${2:-0}}")
   (( ${#c[@]} == 2 )) &&
     msg=" at line %d of %s" ||
     msg=" at line %d in %s of %s"
-  printf "$msg\n" ${c[@]} >&2
+  printf "$msg\n" "${c[@]}" >&2
   exit 1
 }
 
