@@ -10,8 +10,7 @@ See http://github.com/ingydotnet/swim-pm#readme
 
 Bash+(1) - Modern Bash Programming
 
-=for html
-<a href="https://travis-ci.org/ingydotnet/bashplus"><img src="https://travis-ci.org/ingydotnet/bashplus.png" alt="bashplus"></a>
+<badge travis ingydotnet/bashplus>
 
 =head1 Synopsis
 

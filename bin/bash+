@@ -22,7 +22,7 @@ if [ "${BASH_SOURCE[0]}" != "$0" ]; then
   return $?
 else
   if [ $# -eq 1 ] && [ "$1" == --version ]; then
-    echo 'bash+   version 0.0.8'
+    echo 'bash+   version 0.0.9'
   else
   cat <<...
 

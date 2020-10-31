@@ -17,7 +17,7 @@ set -e
 
 [ -z "$BASHPLUS_VERSION" ] || return 0
 
-BASHPLUS_VERSION='0.0.8'
+BASHPLUS_VERSION='0.0.9'
 
 @() { echo "$@"; }
 bash+:export:std() { @ use die warn; }

@@ -1,4 +1,9 @@
 ---
+version: 0.0.9
+date:    Sat Oct 31 09:57:45 CDT 2020
+changes:
+- Apply shellcheck fixes
+---
 version: 0.0.8
 date:    Fri Aug 21 08:00:45 PDT 2020
 changes:
