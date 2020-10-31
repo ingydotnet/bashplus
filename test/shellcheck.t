@@ -25,8 +25,6 @@ skips=(
   SC1091  # Not following: bash+ was not specified as input (see shellcheck -x).
   # These are errors/warnings we can fix one at a time:
   SC2015 # Note that A && B || C is not if-then-else. C may run when A is true
-  SC2019 # Use '[:upper:]' to support accents and foreign alphabets.
-  SC2018 # Use '[:lower:]' to support accents and foreign alphabets.
 )
 
 skip=$(IFS=,; echo "${skips[*]}")
