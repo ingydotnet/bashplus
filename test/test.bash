@@ -12,12 +12,12 @@ plan() {
 }
 
 pass() {
-  let run=run+1
+  (( ++run ))
   echo "ok $run${1:+ - $1}"
 }
 
 fail() {
-  let run=run+1
+  (( ++run ))
   echo "not ok $run${1:+ - $1}"
 }
 
