@@ -75,7 +75,7 @@ bash+:findlib() {
 
 bash+:die() {
   local msg=${1:-Died}
-  printf "${msg//\\n/$'\n'}" >&2
+  printf "%s" "${msg//\\n/$'\n'}" >&2
   local trailing_newline_re=$'\n''$'
   [[ $msg =~ $trailing_newline_re ]] && exit 1
 
@@ -84,7 +84,7 @@ bash+:die() {
   (( ${#c[@]} == 2 )) &&
     msg=" at line %d of %s" ||
     msg=" at line %d in %s of %s"
-  printf "$msg\n" "${c[@]}" >&2
+  printf "%s\n%s" "$msg" "${c[@]}" >&2
   exit 1
 }
 
