@@ -26,7 +26,7 @@ bash+:export:std() { @ use die warn; }
 bash+:use() {
   local library_name=${1:?bash+:use requires library name}; shift
   local library_path=; library_path=$(bash+:findlib $library_name)
-  [[ -n $library_path ]] || {
+  [[ $library_path ]] || {
     bash+:die "Can't find library '$library_name'." 1
   }
   source "$library_path"
@@ -54,7 +54,7 @@ bash+:fcopy() {
   bash+:can "${1:?bash+:fcopy requires an input function name}" ||
     bash+:die "'$1' is not a function" 2
   local func=; func=$(type "$1" 3>/dev/null | tail -n+3)
-  [[ -n $3 ]] && "$3"
+  [[ $3 ]] && "$3"
   eval "${2:?bash+:fcopy requires an output function name}() $func"
 }
 
