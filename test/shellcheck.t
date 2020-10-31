@@ -26,12 +26,9 @@ skips=(
   # These are errors/warnings we can fix one at a time:
   SC2219 # Instead of 'let expr', prefer (( expr ))
   SC2015 # Note that A && B || C is not if-then-else. C may run when A is true
-  SC2076 # Don't quote right-hand side of =~, it'll match literally rather than as a regex.
-  SC2046 # Quote this to prevent word splitting.
   SC2019 # Use '[:upper:]' to support accents and foreign alphabets.
   SC2018 # Use '[:lower:]' to support accents and foreign alphabets.
   SC2059 # Don't use variables in the printf format string. Use printf '..%s..' "$foo"
-  SC2207 # Prefer mapfile or read -a to split command output (or quote to avoid splitting).
   SC2034 # BASHLIB appears unused. Verify use (or export if used externally)
   SC2154 # Foo__Bar_VERSION is referenced but not assigned.
 )

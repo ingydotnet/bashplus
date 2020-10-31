@@ -38,7 +38,7 @@ ok() {
 }
 
 like() {
-  if [[ "$1" =~ "$2" ]]; then
+  if [[ "$1" =~ $2 ]]; then
     pass "$3"
   else
     fail "$3"
@@ -48,7 +48,7 @@ like() {
 }
 
 unlike() {
-  if [[ ! "$1" =~ "$2" ]]; then
+  if [[ ! "$1" =~ $2 ]]; then
     pass "$3"
   else
     fail "$3"

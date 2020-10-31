@@ -42,6 +42,8 @@ bash+:import() {
   local arg=
   for arg; do
     if [[ $arg =~ ^: ]]; then
+      # Word splitting required here
+      # shellcheck disable=2046
       bash+:import $(bash+:export"$arg")
     else
       bash+:fcopy bash+:"$arg" "$arg"
@@ -74,7 +76,8 @@ bash+:die() {
   local trailing_newline_re=$'\n''$'
   [[ $msg =~ $trailing_newline_re ]] && exit 1
 
-  local c=($(caller "${DIE_STACK_LEVEL:-${2:-0}}"))
+  local c
+  mapfile -t c < <(caller "${DIE_STACK_LEVEL:-${2:-0}}")
   (( ${#c[@]} == 2 )) &&
     msg=" at line %d of %s" ||
     msg=" at line %d in %s of %s"
