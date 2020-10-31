@@ -24,8 +24,8 @@ bash+:export:std() { @ use die warn; }
 
 # Source a bash library call import on it:
 bash+:use() {
-  local library_name="${1:?bash+:use requires library name}"; shift
-  local library_path=; library_path="$(bash+:findlib $library_name)"
+  local library_name=${1:?bash+:use requires library name}; shift
+  local library_path=; library_path=$(bash+:findlib $library_name)
   [[ -n $library_path ]] || {
     bash+:die "Can't find library '$library_name'." 1
   }
@@ -60,16 +60,16 @@ bash+:fcopy() {
 
 # Find the path of a library
 bash+:findlib() {
-  local library_name=; library_name="$(tr 'A-Z' 'a-z' <<< "${1//:://}").bash"
-  local lib="${BASHPLUSLIB:-${BASHLIB:-$PATH}}"
-  library_name="${library_name//+/\\+}"
+  local library_name=; library_name=$(tr 'A-Z' 'a-z' <<< "${1//:://}").bash
+  local lib=${BASHPLUSLIB:-${BASHLIB:-$PATH}}
+  library_name=${library_name//+/\\+}
   ( IFS=':'; find $lib -name ${library_name##*/} 2>/dev/null |
     grep -E "$library_name\$" |
     head -n1 )
 }
 
 bash+:die() {
-  local msg="${1:-Died}"
+  local msg=${1:-Died}
   printf "${msg//\\n/$'\n'}" >&2
   local trailing_newline_re=$'\n''$'
   [[ $msg =~ $trailing_newline_re ]] && exit 1
