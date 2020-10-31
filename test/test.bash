@@ -6,6 +6,8 @@
 # 80-90% what test-more-bash does, with minimal code. It's a good example of
 # how nice Bash can be.
 #------------------------------------------------------------------------------
+
+set -e -u -o pipefail
 run=0
 
 plan() {
