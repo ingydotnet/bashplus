@@ -6,13 +6,13 @@ PATH=$PWD/bin:$PATH
 source bash+
 
 functions=(
-    use
-    import
-    fcopy
-    findlib
-    die
-    warn
-    can
+  use
+  import
+  fcopy
+  findlib
+  die
+  warn
+  can
 )
 
 for f in "${functions[@]}"; do
