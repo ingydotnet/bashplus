@@ -6,6 +6,7 @@
 # 80-90% what test-more-bash does, with minimal code. It's a good example of
 # how nice Bash can be.
 #------------------------------------------------------------------------------
+run=0
 
 plan() {
   echo "1..$1"
