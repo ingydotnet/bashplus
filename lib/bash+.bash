@@ -32,7 +32,7 @@ bash+:export:std() { @ use die warn; }
 # Source a bash library call import on it:
 bash+:use() {
   local library_name=${1:?bash+:use requires library name}; shift
-  local library_path=; library_path=$(bash+:findlib "$library_name")
+  local library_path=; library_path=$(bash+:findlib "$library_name") || true
   [[ $library_path ]] ||
     bash+:die "Can't find library '$library_name'." 1
 
@@ -62,36 +62,45 @@ bash+:import() {
 bash+:fcopy() {
   bash+:can "${1:?bash+:fcopy requires an input function name}" ||
     bash+:die "'$1' is not a function" 2
-  local func=; func=$(type "$1" 3>/dev/null | tail -n+3)
+  local func
+  func=$(type "$1" 3>/dev/null | tail -n+3)
   [[ ${3-} ]] && "$3"
   eval "${2:?bash+:fcopy requires an output function name}() $func"
 }
 
 # Find the path of a library
 bash+:findlib() {
-  local library_name=; library_name=$(tr '[:upper:]' '[:lower:]' <<< "${1//:://}").bash
+  local library_name
+  library_name=$(tr '[:upper:]' '[:lower:]' <<< "${1//:://}").bash
   local lib=${BASHPLUSLIB:-${BASHLIB:-$PATH}}
   library_name=${library_name//+/\\+}
-  (
-    IFS=':'
-    find "$lib" -name "${library_name##*/}" 2>/dev/null |
+  readarray -d':' -t libs < <(echo -n "$lib")
+  find "${libs[@]}" -name "${library_name##*/}" 2>/dev/null |
     grep -E "$library_name\$" |
     head -n1
-  )
 }
 
 bash+:die() {
   local msg=${1:-Died}
-  printf "%s" "${msg//\\n/$'\n'}" >&2
-  local trailing_newline_re=$'\n''$'
-  [[ $msg =~ $trailing_newline_re ]] && exit 1
+  msg=${msg//\\n/$'\n'}
+
+  printf "%s" "$msg" >&2
+  if [[ $msg == *$'\n' ]]; then
+    exit 1
+  else
+    printf "\n"
+  fi
 
   local c
-  mapfile -t c < <(caller "${DIE_STACK_LEVEL:-${2:-0}}")
-  (( ${#c[@]} == 2 )) &&
-    msg=" at line %d of %s" ||
+  readarray -d' ' -t c < <(caller "${DIE_STACK_LEVEL:-${2:-0}}" | tr -d '\n')
+  if (( ${#c[@]} == 2 )); then
+    msg=" at line %d of %s"
+  else
     msg=" at line %d in %s of %s"
-  printf "%s\n%s" "$msg" "${c[@]}" >&2
+  fi
+
+  # shellcheck disable=2059
+  printf "$msg\n" "${c[@]}" >&2
   exit 1
 }
 
