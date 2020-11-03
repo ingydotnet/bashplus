@@ -2,32 +2,57 @@
 #
 # Copyright (c) 2013-2020 Ingy döt Net
 
-{
-  bash+:version-check() {
-    if test "$1" -ge 5; then return; fi
-    if test "$1" -eq 4 && test "$2" -ge 4; then return; fi
-
-    echo "The 'bashplus' library requires that 'Bash 4.4+' is installed." >&2
-    echo "It doesn't need to be your shell, but it must be in your PATH." >&2
-    if [[ ${OSTYPE-} == darwin* ]]; then
-      echo "You appear to be on macOS." >&2
-      echo "Try: 'brew install bash'." >&2
-      echo "This will not change your user shell, it just installs 'Bash 5.x'." >&2
-    fi
-    exit 1
-  }
-  bash+:version-check "${BASH_VERSINFO[@]}"
-  unset -f Bash:version-check
-}
-
-set -e -u -o pipefail
+set -e
 
 [[ ${BASHPLUS_VERSION-} ]] && return 0
 
 BASHPLUS_VERSION=0.0.9
 
-@() { echo "$@"; }
-bash+:export:std() { @ use die warn; }
+bash+:version-check() {
+  local cmd want got out
+
+  IFS=' ' read -r -a cmd <<< "${1:?}"
+  IFS=. read -r -a want <<< "${2:?}"
+  : "${want[2]:=0}"
+
+  if [[ ${cmd[*]} == bash ]]; then
+    got=("${BASH_VERSINFO[@]}")
+    BASHPLUS_VERSION_CHECK=${BASH_VERSION-}
+  else
+    [[ ${#cmd[*]} -gt 1 ]] || cmd+=(--version)
+    out=$("${cmd[@]}") ||
+      { echo "Failed to run '${cmd[*]}'" >&2; exit 1; }
+    [[ $out =~ ([0-9]+\.[0-9]+(\.[0-9]+)?) ]] ||
+      { echo "Can't determine version number from '${cmd[*]}'" >&2; exit 1; }
+    BASHPLUS_VERSION_CHECK=${BASH_REMATCH[1]}
+    IFS=. read -r -a got <<< "$BASHPLUS_VERSION_CHECK"
+  fi
+  : "${got[2]:=0}"
+
+  ((
+    got[0] > want[0] ||
+    got[0] == want[0] && got[1] > want[1] ||
+    got[0] == want[0] && got[1] == want[1] && got[2] >= want[2]
+  )) || return 1
+
+  return 0
+}
+
+bash+:version-check bash 3.2 ||
+  { echo "The 'bashplus' library requires 'Bash 3.2+'." >&2; exit 1; }
+
+@() (echo "$@")  # XXX do we want to keep this?
+
+bash+:export:std() {
+  set -u -o pipefail
+
+  if bash+:version-check bash 4.4; then
+    shopt -s inherit_errexit
+  fi
+  [[ $BASHPLUS_VERSION_CHECK == 4.0 ]] && set +u
+
+  echo use die warn
+}
 
 # Source a bash library call import on it:
 bash+:use() {
@@ -74,7 +99,7 @@ bash+:findlib() {
   library_name=$(tr '[:upper:]' '[:lower:]' <<< "${1//:://}").bash
   local lib=${BASHPLUSLIB:-${BASHLIB:-$PATH}}
   library_name=${library_name//+/\\+}
-  readarray -d':' -t libs < <(echo -n "$lib")
+  IFS=':' read -r -a libs <<< "$lib"
   find "${libs[@]}" -name "${library_name##*/}" 2>/dev/null |
     grep -E "$library_name\$" |
     head -n1
@@ -92,7 +117,7 @@ bash+:die() {
   fi
 
   local c
-  readarray -d' ' -t c < <(caller "${DIE_STACK_LEVEL:-${2:-0}}" | tr -d '\n')
+  IFS=' ' read -r -a c <<< "$(caller "${DIE_STACK_LEVEL:-${2:-0}}")"
   if (( ${#c[@]} == 2 )); then
     msg=" at line %d of %s"
   else
