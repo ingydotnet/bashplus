@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source test/test.bash
+source test/setup
 
 PATH=$PWD/bin:$PATH
 source bash+
@@ -15,7 +15,7 @@ fi
 IFS=$'\n' read -d '' -r -a shell_files <<< "$(
   find bin -type f
   find lib -type f
-  echo test/test.bash
+  echo test/setup
   find test -name '*.t'
 )" || true
 

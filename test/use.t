@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source test/test.bash
+source test/setup
 
 PATH=$PWD/bin:$PATH
 source bash+ :std can
