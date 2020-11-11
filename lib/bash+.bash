@@ -44,12 +44,12 @@ bash+:version-check bash 3.2 ||
 @() (echo "$@")  # XXX do we want to keep this?
 
 bash+:export:std() {
-  set -u -o pipefail
+  set -o pipefail
 
   if bash+:version-check bash 4.4; then
+    set -o nounset
     shopt -s inherit_errexit
   fi
-  [[ $BASHPLUS_VERSION_CHECK == 4.0 ]] && set +u
 
   echo use die warn
 }
