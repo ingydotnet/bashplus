@@ -6,7 +6,7 @@ set -e
 
 [[ ${BASHPLUS_VERSION-} ]] && return 0
 
-BASHPLUS_VERSION=0.0.9
+BASHPLUS_VERSION=0.1.0
 
 bash+:version-check() {
   local cmd want got out
