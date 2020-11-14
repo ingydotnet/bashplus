@@ -13,6 +13,8 @@ bash+:version-check() {
 
   IFS=' ' read -r -a cmd <<< "${1:?}"
   IFS=. read -r -a want <<< "${2:?}"
+  : "${want[0]:=0}"
+  : "${want[1]:=0}"
   : "${want[2]:=0}"
 
   if [[ ${cmd[*]} == bash ]]; then
@@ -29,13 +31,11 @@ bash+:version-check() {
   fi
   : "${got[2]:=0}"
 
-  ((
-    got[0] > want[0] ||
-    got[0] == want[0] && got[1] > want[1] ||
-    got[0] == want[0] && got[1] == want[1] && got[2] >= want[2]
-  )) || return 1
-
-  return 0
+  (( got[0] > want[0] || ((
+     got[0] == want[0] && ((
+       got[1] > want[1] || ((
+       got[1] == want[1] && got[2] >= want[2]
+  )) )) )) ))
 }
 
 bash+:version-check bash 3.2 ||
