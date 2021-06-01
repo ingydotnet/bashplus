@@ -31,7 +31,7 @@ Greetings modern Bash programmer. Welcome to Bash+!
 
 Bash+ is framework that makes Bash programming more like Ruby and Perl.
 
-See: https://github.com/bpan-org/bashplus
+See: https://github.com/ingydotnet/bashplus
 
 If you got here trying to use bash+ in a program, you need to source it:
 
