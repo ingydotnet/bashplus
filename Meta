@@ -1,6 +1,6 @@
 [bpan]
 name = bashplus
-version = 0.0.0
+version = 0.0.1
 abstract = A Collection of Useful Bash Functions
 license = MIT
 copyright = 2022
