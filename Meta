@@ -1,0 +1,28 @@
+[bpan]
+name = bashplus
+version = 0.0.0
+abstract = A Collection of Useful Bash Functions
+license = MIT
+copyright = 2022
+
+site = $repo
+repo = https://github.com/ingydotnet/bashplus
+bug = $repo/issues/
+irc = irc.libera.chat/bpan
+
+[author]
+name = Ingy döt Net
+email = ingy@ingy.net
+github = ingydotnet
+libera = ingydotnet
+twitter = ingydotnet
+site = https://github.com/ingydotnet
+
+[file "bpan"]
+update = License
+update = Makefile
+update = ReadMe.md doc/bashplus.md
+update = test/00-shellcheck.t
+update = test/init
+
+# vim: ft=gitconfig:
